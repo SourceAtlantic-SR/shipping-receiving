@@ -2289,6 +2289,8 @@ document.addEventListener('keydown', function(ev){
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<!-- JsBarcode -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 
 <script>
 // ── FIREBASE CONFIG ──
@@ -3278,8 +3280,15 @@ function printIncomingLabel(){
   })() : '—';
 
   var incBarcodeVal = formNum || wo;
+  var incBarcodeSvg = '';
+  if(incBarcodeVal && window.JsBarcode){
+    try{
+      var _svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      JsBarcode(_svg, incBarcodeVal, {format:'CODE128',width:1.5,height:32,displayValue:true,fontSize:9,margin:2,xmlDocument:document});
+      incBarcodeSvg = '<div class="barcode-wrap">'+_svg.outerHTML+'</div>';
+    }catch(e){}
+  }
   var html = ('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Equipment Label</title>'+
-    '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'+
     '<style>'+
     '*{margin:0;padding:0;box-sizing:border-box}'+
     'body{font-family:Arial,sans-serif;background:#fff;margin:0;padding:0 0 0 15mm}'+
@@ -3319,9 +3328,8 @@ function printIncomingLabel(){
       '<div class="field"><span class="f-label">Pictures</span><span class="f-value">'+(picsQty?picsQty+' photo'+(picsQty!='1'?'s':''):'—')+'</span></div>'+
       '<div class="field"><span class="f-label">Pics Time</span><span class="f-value">'+fmtPicsTime+'</span></div>'+
     '</div>'+
-    (incBarcodeVal?'<div class="barcode-wrap"><svg id="bc" data-v="'+escHtml(incBarcodeVal)+'"></svg></div>':'')+
+    incBarcodeSvg+
   '</div>'+
-  '<script>window.addEventListener("load",function(){var e=document.getElementById("bc");if(e&&e.dataset.v&&window.JsBarcode){try{JsBarcode(e,e.dataset.v,{format:"CODE128",width:1.5,height:32,displayValue:true,fontSize:9,margin:2});}catch(ex){}}});<\/script>'+
   '</body></html>');
   showLabelPreview(html);
 }
@@ -5883,8 +5891,15 @@ function printProcLabel(){
   var mainValue = wo || so || '—';
 
   var procBarcodeVal = mainValue !== '—' ? mainValue : '';
+  var procBarcodeSvg = '';
+  if(procBarcodeVal && window.JsBarcode){
+    try{
+      var _svg2 = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      JsBarcode(_svg2, procBarcodeVal, {format:'CODE128',width:1.5,height:32,displayValue:true,fontSize:9,margin:2,xmlDocument:document});
+      procBarcodeSvg = '<div class="barcode-wrap">'+_svg2.outerHTML+'</div>';
+    }catch(e){}
+  }
   var html = ('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Shipping On Hold Label</title>'+
-    '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'+
     '<style>'+
     '*{margin:0;padding:0;box-sizing:border-box}'+
     'body{font-family:Arial,sans-serif;background:#fff;margin:0;padding:0 0 0 15mm}'+
@@ -5920,9 +5935,8 @@ function printProcLabel(){
       '<div class="field"><span class="f-label">Pictures</span><span class="f-value">'+(picsQty?picsQty+' photo'+(picsQty!='1'?'s':''):'—')+'</span></div>'+
       (isEquipex?'<div class="field" style="grid-column:1/-1;margin-top:5px;background:#fffbeb;border:2px solid #f59e0b;border-radius:4px;padding:4px 8px"><span class="f-label" style="color:#92400e;font-size:6.5pt">Next Shipping Date (Equipex)</span><span class="f-value" style="color:#92400e;font-size:12pt">'+fmtDate(nextShip)+'</span></div>':'')+
     '</div>'+
-    (procBarcodeVal?'<div class="barcode-wrap"><svg id="bc" data-v="'+escHtml(procBarcodeVal)+'"></svg></div>':'')+
+    procBarcodeSvg+
   '</div>'+
-  '<script>window.addEventListener("load",function(){var e=document.getElementById("bc");if(e&&e.dataset.v&&window.JsBarcode){try{JsBarcode(e,e.dataset.v,{format:"CODE128",width:1.5,height:32,displayValue:true,fontSize:9,margin:2});}catch(ex){}}});<\/script>'+
   '</body></html>');
   showLabelPreview(html);
 }
