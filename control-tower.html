@@ -1057,7 +1057,7 @@ function renderResults(result, raw){
     h += infoRow('Cust. Stock #',inc.customerStockNumber)+infoRow('Delivered by',inc.deliveryBy)+infoRow('Received by',inc.receivedBy);
     if(inc.notes) h += infoRow('Notes',inc.notes);
     h += '</div>';
-    if(result.type!=='so'){ var _locDisp = (inc.designatedLocation==='Others' && inc.locationOther) ? inc.locationOther : inc.designatedLocation; h += '<div class="ct-card" style="margin-bottom:0"><div class="ct-card-title">📍 Location</div>'+infoRow('Location',_locDisp)+'</div>'; }
+    if(result.type!=='so'){ var _locDisp = (inc.designatedLocation==='Others' && inc.locationOther) ? inc.locationOther : (inc.designatedLocation||'Laydown Area'); h += '<div class="ct-card" style="margin-bottom:0"><div class="ct-card-title">📍 Location</div>'+infoRow('Location',_locDisp)+'</div>'; }
     h += '</div>';
 
     var shpPhotosLink = '';
@@ -1187,7 +1187,7 @@ function viewEpsForm(idx){
     custstock:       r.customerStockNumber||'',
     custasset:       r.customerAsset||'',
     otherdata:       r.otherData||'',
-    location:        r.designatedLocation||'',
+    location:        r.designatedLocation||'Laydown Area',
     locationOther:   r.locationOther||'',
     attachments:     r.attachments||'',
     attachOther:     r.attachOther||'',

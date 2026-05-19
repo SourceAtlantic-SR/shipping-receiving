@@ -2959,7 +2959,7 @@ function renderIncoming(){
       '<td title="'+escAttr((r.equipment||'').toUpperCase())+'">'+escHtml((r.equipment||'—').toUpperCase())+'</td>'+
       '<td>'+areaBadge(r.area)+'</td>'+
       '<td>'+(r.priority==='Rush'?'<span style="background:#fee2e2;color:#dc2626;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap">🔴 Rush</span>':(r.priority||'Regular'))+'</td>'+
-      '<td>'+locationBadge(r.designatedLocation||(r.wo?'Laydown Area':''), r.benchName, r.locationOther)+'</td>'+
+      '<td>'+locationBadge(r.designatedLocation||'Laydown Area', r.benchName, r.locationOther)+'</td>'+
       '<td>'+escHtml((r.deliveryBy||'—').toUpperCase())+'</td>'+
       '<td>'+escHtml(r.receivedBy||'—')+'</td>'+
       '<td onclick="event.stopPropagation()">'+
@@ -3047,7 +3047,7 @@ function openIncomingModal(key){
     document.getElementById('inc-attach-volute').checked       = aStr.includes('volute');
     document.getElementById('inc-attach-other').value          = r.attachOther||'';
     // Location
-    setIncLocation(r.designatedLocation||(r.wo?'Laydown Area':''));
+    setIncLocation(r.designatedLocation||'Laydown Area');
     document.getElementById('inc-location-other').value = r.locationOther||'';
     // Pictures
     document.getElementById('inc-pics-qty').value  = r.picsQty||r.picsqty||'';
@@ -3133,7 +3133,7 @@ function openIncomingModal(key){
     ].forEach(function(id){ document.getElementById(id).checked = false; });
     document.getElementById('inc-wtd-other-group').style.display = 'none';
     // Clear toggles
-    setIncDept(''); setIncLocation(''); setIncPriority('');
+    setIncDept(''); setIncLocation('Laydown Area'); setIncPriority('');
     incActivateToggle('btn-pics-yes','btn-pics-no','');
     // Clear selects / inputs
     document.getElementById('inc-received').value = 'Luiz Silva';
@@ -3199,7 +3199,7 @@ function saveIncoming(){
   var attachments = attachList.join(', ');
   var attachOther = document.getElementById('inc-attach-other').value.trim();
   // Location
-  var designatedLocation = document.getElementById('inc-location').value;
+  var designatedLocation = document.getElementById('inc-location').value || 'Laydown Area';
   var locationOther      = document.getElementById('inc-location-other').value.trim();
   var benchName          = '';
   var picsQty            = document.getElementById('inc-pics-qty').value;
@@ -3261,7 +3261,7 @@ function printIncomingLabel(){
   var wo       = document.getElementById('inc-wo').value.trim();
   var date     = document.getElementById('inc-date').value;
   var area     = document.getElementById('inc-area').value;
-  var location = document.getElementById('inc-location').value;
+  var location = document.getElementById('inc-location').value || 'Laydown Area';
   var _locOther = document.getElementById('inc-location-other').value.trim();
   if(location === 'Others' && _locOther) location = _locOther;
   var picsQty  = document.getElementById('inc-pics-qty').value;
@@ -3401,7 +3401,7 @@ function openEpsForm(){
     custstock:       document.getElementById('inc-custstock').value.trim(),
     custasset:       document.getElementById('inc-custasset').value.trim(),
     otherdata:       document.getElementById('inc-otherdata').value.trim(),
-    location:        document.getElementById('inc-location').value,
+    location:        document.getElementById('inc-location').value || 'Laydown Area',
     locationOther:   document.getElementById('inc-location-other').value.trim(),
     attachments:     (function(){ var ids=['coupling','pulley','junctionbox','mountingfoot','impeller','volute'],names=['Coupling','Pulley','Junction Box','Mounting Foot','Impeller','Volute'],out=[]; ids.forEach(function(id,i){ if(document.getElementById('inc-attach-'+id).checked) out.push(names[i]); }); return out.join(', '); })(),
     attachOther:     document.getElementById('inc-attach-other').value.trim(),
