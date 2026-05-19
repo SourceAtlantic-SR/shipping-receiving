@@ -3280,7 +3280,7 @@ function printIncomingLabel(){
   var html = ('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Equipment Label</title><style>'+
     '*{margin:0;padding:0;box-sizing:border-box}'+
     'body{font-family:Arial,sans-serif;background:#fff;margin:0;padding:0 0 0 15mm}'+
-    '.label{width:10cm;min-height:4.9cm;border:3px solid #000;padding:4px;page-break-inside:avoid}'+
+    '.label{width:10cm;min-height:6cm;border:3px solid #000;padding:4px;page-break-inside:avoid}'+
     '.label-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #000;padding-bottom:5px;margin-bottom:5px}'+
     '.inc-num{font-size:9pt;font-weight:700;color:#333}'+
     '.company{font-size:8pt;font-weight:700;color:#333}'+
@@ -3293,9 +3293,8 @@ function printIncomingLabel(){
     '.f-label{font-size:6pt;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666}'+
     '.f-value{font-size:9pt;font-weight:700;color:#000}'+
     '.f-value.big{font-size:11pt}'+
-    '@media print{body{margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}button{display:none}@page{margin:0;size:28cm 5.5cm}}'+
+    '@media print{body{margin:0;padding:0 0 0 5mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}button{display:none}@page{margin:0;size:10cm 6cm}}'+
   '</style></head><body>'+
-  '<div style="transform:scale(0.7);transform-origin:top left;display:inline-block;padding:0 0 0 15mm">'+
   '<div class="label">'+
     '<div class="label-header">'+
       '<div><div class="inc-num">Incoming # '+(formNum||'—')+'</div>'+
@@ -3316,7 +3315,6 @@ function printIncomingLabel(){
       '<div class="field"><span class="f-label">Pictures</span><span class="f-value">'+(picsQty?picsQty+' photo'+(picsQty!='1'?'s':''):'—')+'</span></div>'+
       '<div class="field"><span class="f-label">Pics Time</span><span class="f-value">'+fmtPicsTime+'</span></div>'+
     '</div>'+
-  '</div>'+
   '</div>'+
   '</body></html>');
   showLabelPreview(html);
